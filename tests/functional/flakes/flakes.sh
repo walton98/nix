@@ -127,6 +127,9 @@ nix path-info "$flake1Dir/result"
 (! nix build -o "$TEST_ROOT/result" --expr "(builtins.getFlake \"$flake1Dir\").packages.$system.default")
 nix build -o "$TEST_ROOT/result" --expr "(builtins.getFlake \"$flake1Dir\").packages.$system.default" --impure
 
+# 'getFlake' on a store path should succeed in impure mode.
+nix build -o "$TEST_ROOT/result" --expr "(builtins.getFlake (builtins.getFlake \"$flake1Dir\").outPath).packages.$system.default" --impure
+
 # 'getFlake' on a locked flakeref should succeed even in pure mode.
 nix build -o "$TEST_ROOT/result" --expr "(builtins.getFlake \"git+file://$flake1Dir?rev=$hash2\").packages.$system.default"
 

@@ -977,7 +977,7 @@ void initLib(const Settings & settings)
 {
     auto prim_getFlake = [&settings](EvalState & state, const PosIdx pos, Value * * args, Value & v)
     {
-        std::string flakeRefS(state.forceStringNoCtx(*args[0], pos, "while evaluating the argument passed to builtins.getFlake"));
+        std::string flakeRefS(state.forceString(*args[0], pos, "while evaluating the argument passed to builtins.getFlake"));
         auto flakeRef = parseFlakeRef(state.fetchSettings, flakeRefS, {}, true);
         if (state.settings.pureEval && !flakeRef.input.isLocked())
             throw Error("cannot call 'getFlake' on unlocked flake reference '%s', at %s (use --impure to override)", flakeRefS, state.positions[pos]);
